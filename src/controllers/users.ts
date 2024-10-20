@@ -1,6 +1,7 @@
 import { users } from '../database/db';
-import { isValidUserId } from '../helpers/utils';
+import { getID, isValidUserId } from '../helpers/utils';
 import { InvalidUUIDError, UserNotFoundError } from '../types/errors';
+import { IUser, IUserDto } from '../types/users';
 
 export const getAllUsers = () => {
   return users;
@@ -17,3 +18,11 @@ export const getUserById = (userId:  string | undefined) => {
   }
   return user
 };
+
+export const addNewUser = (userDto: IUserDto): IUser  => {
+  const newUser = { ...userDto, id: getID() };
+
+  users.push(newUser);
+
+  return newUser;
+}

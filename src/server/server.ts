@@ -1,10 +1,10 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { sendErrorResponse, sendJSONResponse } from './response';
-import { handlerGETMethod } from './routes';
+import { handlerGETMethod, handlerPOSTMethod } from './routes';
 import { HttpMethod, StatusCode } from '../types/server';
 import { InvalidHTTPMethodError } from '../types/errors';
 
-export const server = (request: IncomingMessage, response: ServerResponse) => {
+export const server = async (request: IncomingMessage, response: ServerResponse) => {
   try {
     switch (request.method) {
       case HttpMethod.GET: {
@@ -13,9 +13,11 @@ export const server = (request: IncomingMessage, response: ServerResponse) => {
         break;
       }
 
-      // case HttpMethod.POST: {
-      //   break;
-      // }
+      case HttpMethod.POST: {
+        const resultRes = await handlerPOSTMethod(request, response);
+        sendJSONResponse(response, StatusCode.Created, resultRes);
+        break;
+      }
 
       // case HttpMethod.PUT: {
       //   break;
