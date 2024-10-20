@@ -1,0 +1,19 @@
+{
+  "name": "simple-crud-api",
+  "version": "1.0.0",
+  "description": "Implement simple CRUD API using in-memory database underneath.",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "src/index.ts --watch ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvanBusygin/Simple-CRUD-API.git"
+  },
+  "author": "Ivan Busygin",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
