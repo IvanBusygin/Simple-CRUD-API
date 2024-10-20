@@ -11,7 +11,11 @@ export const sendJSONResponse = (res: ServerResponse, statusCode: StatusCode, da
   }
 };
 
-export const sendTextResponse = (res: ServerResponse, statusCode: StatusCode, data: string): void => {
+export const sendTextResponse = (
+  res: ServerResponse,
+  statusCode: StatusCode,
+  data: string,
+): void => {
   res.writeHead(statusCode, { 'Content-Type': 'text/plain' });
   res.end(data);
 };

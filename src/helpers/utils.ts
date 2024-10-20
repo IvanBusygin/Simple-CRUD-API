@@ -1,7 +1,8 @@
 import { v4 } from 'uuid';
 import { version as uuidVersion } from 'uuid';
 import { validate as uuidValidate } from 'uuid';
-import { IUserDto, IUserId } from '../types/users';
+import { IUser, IUserDto, IUserId } from '../types/users';
+import { UserNotFoundError } from '../types/errors';
 
 export const getID = () => {
   return v4();
@@ -14,6 +15,16 @@ export const isValidUserId = (uuid: unknown): uuid is IUserId => {
   return uuidValidate(uuid) && uuidVersion(uuid) === 4;
 };
 
+export const findUserIdxById = (users: IUser[], userId: IUserId): number => {
+  const userIdx = users.findIndex((user) => user.id === userId);
+
+  if (userIdx === -1) {
+    throw new UserNotFoundError();
+  }
+
+  return userIdx;
+};
+
 export const isUserDto = (value: unknown): value is IUserDto => {
   if (typeof value !== 'object' || value === null) return false;
 
@@ -23,7 +34,6 @@ export const isUserDto = (value: unknown): value is IUserDto => {
     typeof username === 'string' &&
     typeof age === 'number' &&
     Array.isArray(hobbies) &&
-    hobbies.every(hobby => typeof hobby === 'string')
+    hobbies.every((hobby) => typeof hobby === 'string')
   );
 };
-

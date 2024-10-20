@@ -1,13 +1,14 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { addNewUser, getAllUsers, getUserById } from '../controllers/users';
-import { Endpoint } from '../types/server';
-import { parseEndpoint } from '../helpers/endpoints';
-import { InvalidEndpointError, } from '../types/errors';
+import { addNewUser, getAllUsers, getUserById, updateUser } from '../controllers/users';
 import { IUser } from '../types/users';
+import { Endpoint } from '../types/server';
+import { InvalidEndpointError, InvalidUUIDError } from '../types/errors';
+import { parseEndpoint } from '../helpers/endpoints';
+import { isValidUserId } from '../helpers/utils';
 import { getRequestBody, parseUserData } from '../helpers/request-body';
 
-export const handlerGETMethod = (request: IncomingMessage, response: ServerResponse): IUser | IUser[] => {
-  const { endpoint, userId } = parseEndpoint(request.url ?? '');
+export const handlerGET = (req: IncomingMessage, res: ServerResponse): IUser | IUser[] => {
+  const { endpoint, userId } = parseEndpoint(req.url ?? '');
 
   switch (endpoint) {
     case Endpoint.USERS: {
@@ -15,6 +16,9 @@ export const handlerGETMethod = (request: IncomingMessage, response: ServerRespo
     }
 
     case Endpoint.USERS_WITH_ID: {
+      if (!isValidUserId(userId)) {
+        throw new InvalidUUIDError();
+      }
       return getUserById(userId);
     }
 
@@ -24,16 +28,32 @@ export const handlerGETMethod = (request: IncomingMessage, response: ServerRespo
   }
 };
 
-export const handlerPOSTMethod = async (request: IncomingMessage, response: ServerResponse) => {
-  const { endpoint } = parseEndpoint(request.url ?? '');
-
-  const bodyData = await getRequestBody(request);
-  const userDto = parseUserData(bodyData);
+export const handlerPOST = async (req: IncomingMessage, res: ServerResponse): Promise<IUser> => {
+  const { endpoint } = parseEndpoint(req.url ?? '');
 
   if (endpoint !== Endpoint.USERS) {
     throw new InvalidEndpointError();
   }
 
+  const bodyData = await getRequestBody(req);
+  const userDto = parseUserData(bodyData);
+
   return addNewUser(userDto);
 };
 
+export const handlerPUT = async (req: IncomingMessage, res: ServerResponse): Promise<IUser> => {
+  const { endpoint, userId } = parseEndpoint(req.url ?? '');
+
+  if (endpoint !== Endpoint.USERS_WITH_ID) {
+    throw new InvalidEndpointError();
+  }
+
+  const bodyData = await getRequestBody(req);
+  const userDto = parseUserData(bodyData);
+
+  if (!isValidUserId(userId)) {
+    throw new InvalidUUIDError();
+  }
+
+  return updateUser(userId, userDto);
+};

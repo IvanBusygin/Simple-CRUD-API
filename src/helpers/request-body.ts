@@ -24,4 +24,4 @@ export const parseUserData = (bodyData: string | undefined): IUserDto => {
   }
 
   return body;
-}
+};

@@ -1,28 +1,32 @@
 import { users } from '../database/db';
-import { getID, isValidUserId } from '../helpers/utils';
-import { InvalidUUIDError, UserNotFoundError } from '../types/errors';
-import { IUser, IUserDto } from '../types/users';
+import { findUserIdxById, getID } from '../helpers/utils';
+import { IUser, IUserDto, IUserId } from '../types/users';
 
 export const getAllUsers = () => {
   return users;
 };
 
-export const getUserById = (userId:  string | undefined) => {
-  if (!isValidUserId(userId)) {
-    throw new InvalidUUIDError();
-  }
+export const getUserById = (userId: IUserId) => {
+  const idx = findUserIdxById(users, userId);
 
-  const user = users.find((user) => user.id === userId);
-  if (!user) {
-    throw new UserNotFoundError();
-  }
-  return user
+  return users[idx];
 };
 
-export const addNewUser = (userDto: IUserDto): IUser  => {
+export const addNewUser = (userDto: IUserDto): IUser => {
   const newUser = { ...userDto, id: getID() };
 
   users.push(newUser);
 
   return newUser;
-}
+};
+
+export const updateUser = (userId: IUserId, userDto: IUserDto): IUser => {
+  const idx = findUserIdxById(users, userId);
+  const user = users[idx];
+
+  const updatedUser = { ...user, ...userDto, id: user.id };
+
+  users[idx] = updatedUser;
+
+  return updatedUser;
+};

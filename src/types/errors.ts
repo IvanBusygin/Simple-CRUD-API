@@ -10,43 +10,64 @@ export enum ErrorMessage {
 }
 
 export class HTTPError extends Error {
-  constructor(message: string = ErrorMessage.ServerError, public statusCode = StatusCode.ServerError) {
+  constructor(
+    message: string = ErrorMessage.ServerError,
+    public statusCode = StatusCode.ServerError,
+  ) {
     super(message);
   }
 }
 
 export class InvalidEndpointError extends HTTPError {
-  constructor(message: string = ErrorMessage.InvalidEndpointError, public statusCode = StatusCode.NotFound) {
+  constructor(
+    message: string = ErrorMessage.InvalidEndpointError,
+    public statusCode = StatusCode.NotFound,
+  ) {
     super(message);
   }
 }
 
 export class InvalidHTTPMethodError extends HTTPError {
-  constructor(message: string = ErrorMessage.InvalidHTTPMethodError, public statusCode = StatusCode.BadRequest) {
+  constructor(
+    message: string = ErrorMessage.InvalidHTTPMethodError,
+    public statusCode = StatusCode.BadRequest,
+  ) {
     super(message);
   }
 }
 
 export class InvalidUserDataError extends HTTPError {
-  constructor(message: string = ErrorMessage.InvalidUserDataError, public statusCode = StatusCode.BadRequest) {
+  constructor(
+    message: string = ErrorMessage.InvalidUserDataError,
+    public statusCode = StatusCode.BadRequest,
+  ) {
     super(message);
   }
 }
 
 export class InvalidUUIDError extends HTTPError {
-  constructor(message: string = ErrorMessage.InvalidUUIDError, public statusCode = StatusCode.BadRequest) {
+  constructor(
+    message: string = ErrorMessage.InvalidUUIDError,
+    public statusCode = StatusCode.BadRequest,
+  ) {
     super(message);
   }
 }
 
 export class ServerError extends HTTPError {
-  constructor(message: string = ErrorMessage.ServerError, public statusCode = StatusCode.ServerError) {
+  constructor(
+    message: string = ErrorMessage.ServerError,
+    public statusCode = StatusCode.ServerError,
+  ) {
     super(message);
   }
 }
 
 export class UserNotFoundError extends HTTPError {
-  constructor(message: string = ErrorMessage.UserNotFoundError, public statusCode = StatusCode.NotFound) {
+  constructor(
+    message: string = ErrorMessage.UserNotFoundError,
+    public statusCode = StatusCode.NotFound,
+  ) {
     super(message);
   }
 }
