@@ -1,14 +1,10 @@
-import http from 'http';
+import { createServer } from 'http';
+import { server } from './server/server';
 
 const port = 4000;
 
-export const server = http.createServer((req, res) => {
-  if (req.method === 'GET' && req.url === '/') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello World!\n');
-  }
-});
-
-server.listen(port, () => {
+createServer((req, res) => {
+  server(req, res);
+}).listen(port, () => {
   console.log(`Server Listening on http://localhost:${port}/`);
 });
