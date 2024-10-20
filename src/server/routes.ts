@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { addNewUser, getAllUsers, getUserById, updateUser } from '../controllers/users';
+import { addNewUser, deleteUser, getAllUsers, getUserById, updateUser } from '../controllers/users';
 import { IUser } from '../types/users';
 import { Endpoint } from '../types/server';
 import { InvalidEndpointError, InvalidUUIDError } from '../types/errors';
@@ -56,4 +56,18 @@ export const handlerPUT = async (req: IncomingMessage, res: ServerResponse): Pro
   }
 
   return updateUser(userId, userDto);
+};
+
+export const handlerDELETE = async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
+  const { endpoint, userId } = parseEndpoint(req.url ?? '');
+
+  if (endpoint !== Endpoint.USERS_WITH_ID) {
+    throw new InvalidEndpointError();
+  }
+
+  if (!isValidUserId(userId)) {
+    throw new InvalidUUIDError();
+  }
+
+  deleteUser(userId);
 };

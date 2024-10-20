@@ -30,3 +30,9 @@ export const updateUser = (userId: IUserId, userDto: IUserDto): IUser => {
 
   return updatedUser;
 };
+
+export const deleteUser = (userId: IUserId): void => {
+  const userIdx = findUserIdxById(users, userId);
+
+  users.splice(userIdx, 1);
+};

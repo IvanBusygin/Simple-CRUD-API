@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { sendErrorResponse, sendJSONResponse } from './response';
-import { handlerGET, handlerPOST, handlerPUT } from './routes';
+import { handlerDELETE, handlerGET, handlerPOST, handlerPUT } from './routes';
 import { HttpMethod, StatusCode } from '../types/server';
 import { InvalidHTTPMethodError } from '../types/errors';
 
@@ -25,9 +25,11 @@ export const server = async (request: IncomingMessage, response: ServerResponse)
         break;
       }
 
-      // case HttpMethod.DELETE: {
-      //   break;
-      // }
+      case HttpMethod.DELETE: {
+        await handlerDELETE(request, response);
+        sendJSONResponse(response, StatusCode.NoContent);
+        break;
+      }
 
       default: {
         throw new InvalidHTTPMethodError();
