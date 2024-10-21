@@ -1,8 +1,7 @@
-import { IUser } from '../types/users';
 import { getID } from '../helpers/utils';
 import { IMessage } from '../types/server';
 
-export let users: IUser[] = [
+export let users = [
   {
     id: getID(),
     username: 'Pavel',
