@@ -1,7 +1,8 @@
 import { IUser } from '../types/users';
 import { getID } from '../helpers/utils';
+import { IMessage } from '../types/server';
 
-export const users: IUser[] = [
+export let users: IUser[] = [
   {
     id: getID(),
     username: 'Pavel',
@@ -21,3 +22,9 @@ export const users: IUser[] = [
     hobbies: ['PHP'],
   },
 ];
+
+export const handleMessage = (message: IMessage) => {
+  if (message && message.type === 'updatedDB') {
+    users = message.data;
+  }
+};

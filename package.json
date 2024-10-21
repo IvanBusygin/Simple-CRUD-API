@@ -6,6 +6,8 @@
   "scripts": {
     "start:dev": "nodemon",
     "start:prod": "webpack && node dist/bundle.cjs",
+    "start:multi:dev": "cross-env MULTI=true nodemon",
+    "start:multi:prod": "webpack && cross-env MULTI=true node dist/bundle.cjs",
     "prettier:write": "prettier --write src/**/*.ts"
   },
   "repository": {
@@ -22,6 +24,7 @@
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.10.0",
     "@typescript-eslint/parser": "^8.10.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",

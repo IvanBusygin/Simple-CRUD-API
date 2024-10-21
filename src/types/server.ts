@@ -1,3 +1,5 @@
+import { IUser } from './users';
+
 export enum HttpMethod {
   DELETE = 'DELETE',
   GET = 'GET',
@@ -22,4 +24,9 @@ export enum Endpoint {
 export interface EndpointData {
   endpoint: Endpoint;
   userId?: string;
+}
+
+export interface IMessage {
+  type: string;
+  data: IUser[];
 }
